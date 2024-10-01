@@ -216,7 +216,8 @@ namespace Assets.Serialization
                     break;
 
                 case IList list:
-                    throw new NotImplementedException("Fill me in");
+                    WriteList(list);
+                    //throw new NotImplementedException("Fill me in");
                     break;
 
                 default:
@@ -236,7 +237,34 @@ namespace Assets.Serialization
         /// <param name="o">Object to serialize</param>
         private void WriteComplexObject(object o)
         {
-            throw new NotImplementedException("Fill me in");
+            //throw new NotImplementedException("Fill me in");
+
+            var (id, isNew) = GetId(o);
+            if (!isNew)
+            {
+                Write("#");
+                Write(id);
+                return;
+            }
+            Write("#");
+            Write(id);
+            
+            WriteBracketedExpression(
+                " { ",
+                ()=>
+                {
+                    var firstField=true;
+                    foreach (var field in o.GetType().GetFields())
+                    {
+                        if (firstField)
+                            firstField = false;
+                        else
+
+                            Write(", ");
+                        WriteField(field.Name, field.GetValue(o), firstField);
+                    }
+                },
+                " }");
         }
     }
 }
