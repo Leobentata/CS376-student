@@ -63,7 +63,7 @@ namespace FakeUnity.Tests
 
         [TestMethod]
         public void SerializeTransform()
-            => TestSerialize(new Transform(), "#0{type:\"Transform\",X:0,Y:0,parent:null,children:[],gameObject:null}");
+            => TestSerialize(new Transform(), "#0{type:\"Transform\",X:0,Y:0,parent:null,children:[ ],gameObject:null}");
 
         [TestMethod]
         public void DeserializeTransform()

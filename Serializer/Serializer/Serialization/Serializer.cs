@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Reflection.PortableExecutable;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks.Dataflow;
 
 namespace Assets.Serialization
 {
@@ -28,7 +31,19 @@ namespace Assets.Serialization
         {
             var w = new StringWriter();
             Serialize(o, w);
+
+            //EDITED BY ME --------------------------------------------------------------
+            // Set a variable to the Documents path.
+            string docPath = "/Users/leonardobentata/Documents/GitHub/CS376-student/Serializer/Serializer/Serialization/";
+
+            // Append text to an existing file named "WriteLines.txt".
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "Testing.json"), true))
+            {
+                outputFile.WriteLine(w.ToString());
+            }
+           //--------------------------------------------------------------------------------
             return w.ToString();
+
         }
 
         /// <summary>
@@ -206,12 +221,12 @@ namespace Assets.Serialization
 
                 // Not: don't worry about handling strings that contain quote marks
                 case string s:
-                    Write("\"s\"");
+                    Write($"\"{s}\"");
                     //throw new NotImplementedException("Fill me in");
                     break;
 
                 case bool b:
-                    Write("\"b\"");
+                    Write(b);
                     //throw new NotImplementedException("Fill me in");
                     break;
 
@@ -235,15 +250,25 @@ namespace Assets.Serialization
         /// If it hasn't then output #id { type: "typename", field: value ... }
         /// </summary>
         /// <param name="o">Object to serialize</param>
+        /// 
+
+  
         private void WriteComplexObject(object o)
         {
-            //throw new NotImplementedException("Fill me in");
+            
 
             var (id, isNew) = GetId(o);
+            
             if (!isNew)
             {
+                // WriteBracketedExpression(
+                //     "{",
+                //     () => 
+                //     {
                 Write("#");
                 Write(id);
+                // }
+                // , "}");
                 return;
             }
             Write("#");
@@ -253,15 +278,19 @@ namespace Assets.Serialization
                 " { ",
                 ()=>
                 {
+                    Write("type:");
+                    Write($"\"{o.GetType().Name}\"");
+
                     var firstField=true;
-                    foreach (var field in o.GetType().GetFields())
+                    foreach (var field in Utilities.SerializedFields(o))
                     {
                         if (firstField)
                             firstField = false;
-                        else
+                        // else
+                        //     Write(", ");
 
-                            Write(", ");
-                        WriteField(field.Name, field.GetValue(o), firstField);
+                        
+                        WriteField(field.Key, field.Value, firstField);
                     }
                 },
                 " }");
