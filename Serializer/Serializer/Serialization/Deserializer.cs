@@ -277,15 +277,26 @@ namespace Assets.Serialization
         /// </summary>
         /// <param name="enclosingId">Object id of the object this expression appears inside of, if any.</param>
         /// <returns>The object referred to by this #id expression.</returns>
+        /// 
+
         private object ReadComplexObject(int enclosingId)
         {
             GetChar();  // Swallow the #
             var id = (int)ReadNumber(enclosingId);
             SkipWhitespace();
+            //EDITED BY ME --------------------------------------------------------------
+            // Set a variable to the Documents path.
+            // Append text to an existing file named "WriteLines.txt".
+            int count = 0;
+            string docPath = "/Users/leonardobentata/Documents/GitHub/CS376-student/Serializer/Serializer/Serialization/";
+
 
             // You've got the id # of the object.  Are we done now?
-            throw new NotImplementedException("Fill me in");
+            if (idTable.TryGetValue(id, out var result)){
+                return result;
+            }
 
+        
             // Assuming we aren't done, let's check to make sure there's a { next
             SkipWhitespace();
             if (End)
@@ -306,14 +317,16 @@ namespace Assets.Serialization
                     $"Expected a type name (a string) in 'type: ...' expression for object id {id}, but instead got {typeName}");
 
             // Great!  Now what?
-            throw new NotImplementedException("Fill me in");
+            var obj = Utilities.MakeInstance(type);
+
+            idTable[id] = obj;
 
             // Read the fields until we run out of them
-            while (!End && PeekChar != '}')
+            while (!End && -PeekChar != '}')
             {
                 var (field, value) = ReadField(id);
                 // We've got a field and a value.  Now what?
-                throw new NotImplementedException("Fill me in");
+                Utilities.SetFieldByName(obj, field, value);
             }
 
             if (End)
@@ -322,7 +335,9 @@ namespace Assets.Serialization
             GetChar();  // Swallow close bracket
 
             // We're done.  Now what?
-            throw new NotImplementedException("Fill me in");
+            Console.WriteLine($"Adding to idTable: id = {id}, obj = {obj}");
+            
+            return obj;
         }
 
     }
