@@ -320,7 +320,7 @@ namespace Assets.Serialization
             idTable[id] = obj;
 
             // Read the fields until we run out of them
-            while (!End && -PeekChar != '}')
+            while (!End && PeekChar != '}')
             {
                 // SkipWhitespace();
                 // var fieldName = ReadToken();
