@@ -287,9 +287,7 @@ namespace Assets.Serialization
             //EDITED BY ME --------------------------------------------------------------
             // Set a variable to the Documents path.
             // Append text to an existing file named "WriteLines.txt".
-            int count = 0;
-            string docPath = "/Users/leonardobentata/Documents/GitHub/CS376-student/Serializer/Serializer/Serialization/";
-
+            
 
             // You've got the id # of the object.  Are we done now?
             if (idTable.TryGetValue(id, out var result)){
@@ -324,6 +322,10 @@ namespace Assets.Serialization
             // Read the fields until we run out of them
             while (!End && -PeekChar != '}')
             {
+                // SkipWhitespace();
+                // var fieldName = ReadToken();
+                // if (fieldName == "")
+                //      throw new Exception($"Expected field name in object id {id} but got {fieldName}");
                 var (field, value) = ReadField(id);
                 // We've got a field and a value.  Now what?
                 Utilities.SetFieldByName(obj, field, value);
@@ -335,7 +337,6 @@ namespace Assets.Serialization
             GetChar();  // Swallow close bracket
 
             // We're done.  Now what?
-            Console.WriteLine($"Adding to idTable: id = {id}, obj = {obj}");
             
             return obj;
         }
