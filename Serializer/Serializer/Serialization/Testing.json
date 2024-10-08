@@ -220,3 +220,112 @@ null
  }
 True
 False
+1
+#0 { 
+    type:"DummyClass",
+    MyField: null
+ }
+#0 { 
+    type:"Transform",
+    X: 0,
+    Y: 0,
+    parent: null,
+    children: [ ],
+    gameObject: null
+ }
+"foo"
+True
+False
+#0 { 
+    type:"GameObject",
+    name: "test",
+    components: [ 
+        #1 { 
+            type:"Transform",
+            X: 0,
+            Y: 0,
+            parent: null,
+            children: [ ],
+            gameObject: #0
+         }
+     ]
+ }
+#0 { 
+    type:"DummyClass",
+    MyField: #0
+ }
+1.5
+null
+#0 { 
+    type:"GameObject",
+    name: "test",
+    components: [ 
+        #1 { 
+            type:"Transform",
+            X: 0,
+            Y: 0,
+            parent: null,
+            children: [ 
+                #2 { 
+                    type:"Transform",
+                    X: 100,
+                    Y: 100,
+                    parent: #1,
+                    children: [ 
+                        #3 { 
+                            type:"Transform",
+                            X: 0,
+                            Y: 0,
+                            parent: #2,
+                            children: [ ],
+                            gameObject: #4 { 
+                                type:"GameObject",
+                                name: "child 2",
+                                components: [ 
+                                    #3
+                                 ]
+                             }
+                         }
+                     ],
+                    gameObject: #5 { 
+                        type:"GameObject",
+                        name: "child 1",
+                        components: [ 
+                            #2, #6 { 
+                                type:"CircleCollider2D",
+                                Radius: 10,
+                                gameObject: #5
+                             }, #7 { 
+                                type:"SpriteRenderer",
+                                FileName: "circle.jpg",
+                                gameObject: #5
+                             }
+                         ]
+                     }
+                 }, #8 { 
+                    type:"Transform",
+                    X: 500,
+                    Y: 550,
+                    parent: #1,
+                    children: [ ],
+                    gameObject: #9 { 
+                        type:"GameObject",
+                        name: "child 3",
+                        components: [ 
+                            #8, #10 { 
+                                type:"CircleCollider2D",
+                                Radius: 200,
+                                gameObject: #9
+                             }, #11 { 
+                                type:"SpriteRenderer",
+                                FileName: "circle.jpg",
+                                gameObject: #9
+                             }
+                         ]
+                     }
+                 }
+             ],
+            gameObject: #0
+         }
+     ]
+ }
